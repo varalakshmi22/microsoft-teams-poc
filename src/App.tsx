@@ -8,23 +8,33 @@ export default function App() {
   const [sdkConnected, setSdkConnected] = useState(false);
 
   useEffect(() => {
-    async function initializeTeams() {
-      try {
-        await app.initialize();
-        setSdkConnected(true);
+      async function initializeTeams() {
+        try {
+          if (window.parent !== window) {
+            await app.initialize();
 
-        const ctx = await app.getContext();
-        setContext(ctx);
-      } catch (error) {
-        console.error("Teams SDK Initialization Failed:", error);
+            const ctx = await app.getContext();
+
+            setSdkConnected(true);
+            setContext(ctx);
+          } else {
+            console.log(
+              "Running outside Teams"
+            );
+          }
+        } catch (error) {
+          console.error(
+            "Teams SDK Initialization Failed:",
+            error
+          );
+        }
       }
-    }
 
-    initializeTeams();
-  }, []);
-
+      initializeTeams();
+    }, []);
   return (
-    <div
+   <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100vw'}}>
+     <div
       style={{
         padding: "24px",
         fontFamily: "Segoe UI",
@@ -44,9 +54,16 @@ export default function App() {
         }}
       >
         <h2>
-          Welcome,{" "}
-          {context?.user?.displayName || "Varalakshmi"} 👋
-        </h2>
+          Welcome,
+          {context?.user?.displayName ||
+            "Buddy"} 👋
+          </h2>
+
+          <p>
+          {context
+            ? "Running inside Microsoft Teams"
+            : "Running in browser preview mode"}
+          </p>
       </div>
 
       <div
@@ -107,6 +124,7 @@ export default function App() {
         </Card>
       </div>
     </div>
+   </div>
   );
 }
 
