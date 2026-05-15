@@ -40,9 +40,10 @@ export default function App() {
         fontFamily: "Segoe UI",
         background: "#f5f6f8",
         minHeight: "100vh",
+        minWidth:'60vw'
       }}
     >
-      <h1>Teams Integration Dashboard</h1>
+      <h2>Teams React Integration POC</h2>
 
       <div
         style={{
