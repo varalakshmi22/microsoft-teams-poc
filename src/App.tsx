@@ -43,7 +43,7 @@ export default function App() {
         minWidth:'60vw'
       }}
     >
-      <h2>Teams React Integration POC</h2>
+      <h2>Teams Integration with CAWi</h2>
 
       <div
         style={{
