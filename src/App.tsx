@@ -55,9 +55,7 @@ export default function App() {
         }}
       >
         <h2>
-          Welcome,
-          {context?.user?.displayName ||
-            "Buddy"} 👋
+          Welcome👋
           </h2>
 
           <p>
