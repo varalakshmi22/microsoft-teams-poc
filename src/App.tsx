@@ -14,7 +14,7 @@ export default function App() {
             await app.initialize();
 
             const ctx = await app.getContext();
-
+            console.log("Teams Context:", ctx);
             setSdkConnected(true);
             setContext(ctx);
           } else {
