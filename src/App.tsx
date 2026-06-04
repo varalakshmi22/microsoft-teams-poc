@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { app } from "@microsoft/teams-js";
+import { app, authentication } from "@microsoft/teams-js";
 import { useMsal } from "@azure/msal-react";
 import { loginRequest } from "./authConfig";
 
@@ -20,7 +20,8 @@ export default function App() {
       try {
         if (window.parent !== window) {
           await app.initialize();
-
+          const token = await authentication.getAuthToken();
+          console.log("SSO Token:", token);
           const ctx = await app.getContext();
           console.log("Teams Context:", ctx);
           setSdkConnected(true);
@@ -40,6 +41,7 @@ export default function App() {
 
     initializeTeams();
   }, []);
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100vw' }}>
       <div
