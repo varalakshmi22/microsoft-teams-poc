@@ -1,27 +1,28 @@
 import { useEffect, useState } from "react";
 import { app, authentication } from "@microsoft/teams-js";
-import { useMsal } from "@azure/msal-react";
-import { loginRequest } from "./authConfig";
 
 type TeamsContext = any;
 
 export default function App() {
   const [context, setContext] = useState<TeamsContext | null>(null);
   const [sdkConnected, setSdkConnected] = useState(false);
+  const [ssoToken, setSsoToken] = useState("");
 
-  const { instance } = useMsal();
+  const  getSsoToken = async () => {
+    const token = await authentication.getAuthToken();
 
-  const login = async () => {
-    await instance.loginPopup(loginRequest);
-  };
+  console.log("SSO Token:", token);
+
+  setSsoToken(token);
+  }
+  getSsoToken()
 
   useEffect(() => {
     async function initializeTeams() {
       try {
         if (window.parent !== window) {
           await app.initialize();
-          const token = await authentication.getAuthToken();
-          console.log("SSO Token:", token);
+
           const ctx = await app.getContext();
           console.log("Teams Context:", ctx);
           setSdkConnected(true);
@@ -41,7 +42,6 @@ export default function App() {
 
     initializeTeams();
   }, []);
-
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100vw' }}>
       <div
@@ -124,10 +124,17 @@ export default function App() {
             </p>
           </Card>
 
-          <Card title="Upcoming Features">
-            <button onClick={login}>
-              Login with Microsoft
-            </button>
+          {/* <Card title="Upcoming Features">
+            <ul>
+              <li>Microsoft Graph API</li>
+              <li>SSO Integration</li>
+              <li>Meeting Integration</li>
+            </ul>
+          </Card> */}
+          <Card title="SSO Status">
+            <p>
+              Token Received {ssoToken ? "✅" : "❌"}
+            </p>
           </Card>
         </div>
       </div>
