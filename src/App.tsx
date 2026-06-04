@@ -7,15 +7,7 @@ export default function App() {
   const [context, setContext] = useState<TeamsContext | null>(null);
   const [sdkConnected, setSdkConnected] = useState(false);
   const [ssoToken, setSsoToken] = useState("");
-
-  const  getSsoToken = async () => {
-    const token = await authentication.getAuthToken();
-
-  console.log("SSO Token:", token);
-
-  setSsoToken(token);
-  }
-  getSsoToken()
+  const [ssoError, setSsoError] = useState("");
 
   useEffect(() => {
     async function initializeTeams() {
@@ -24,13 +16,18 @@ export default function App() {
           await app.initialize();
 
           const ctx = await app.getContext();
-          console.log("Teams Context:", ctx);
+
+          try {
+            const token = await authentication.getAuthToken();
+
+            console.log("SSO Token received");
+            setSsoToken(token);
+          } catch (err: any) {
+            setSsoError(String(err));
+          }
+
           setSdkConnected(true);
           setContext(ctx);
-        } else {
-          console.log(
-            "Running outside Teams"
-          );
         }
       } catch (error) {
         console.error(
@@ -132,13 +129,12 @@ export default function App() {
             </ul>
           </Card> */}
           <Card title="SSO Status">
-            <p>
-              Token Received {ssoToken ? "✅" : "❌"}
-            </p>
+            <p>Token Received {ssoToken ? "✅" : "❌"}</p>
+            {ssoError && <p>Error: {ssoError}</p>}
           </Card>
-        </div>
       </div>
     </div>
+    </div >
   );
 }
 
