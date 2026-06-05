@@ -8,7 +8,8 @@ export default function App() {
   const [sdkConnected, setSdkConnected] = useState(false);
   const [ssoToken, setSsoToken] = useState("");
   const [ssoError, setSsoError] = useState("");
-
+console.log(window.location.origin);
+console.log(window.location.href);
   useEffect(() => {
     async function initializeTeams() {
       try {
