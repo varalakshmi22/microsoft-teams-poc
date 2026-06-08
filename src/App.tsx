@@ -47,20 +47,21 @@ export default function App() {
     initializeTeams();
   }, []);
 
-  const handleLogin = async () => {
-  try {
-    await msalInstance.handleRedirectPromise();
-    console.log("Accounts:", msalInstance.getAllAccounts());
-    console.log("Storage keys:", Object.keys(sessionStorage));
 
+const handleLogin = async () => {
+    await msalInstance.handleRedirectPromise();
+
+  try {
     const response = await msalInstance.loginPopup({
       scopes: ["User.Read"],
       prompt: "select_account",
     });
 
-    console.log("Login Success", response);
+    console.log("LOGIN SUCCESS", response);
+    alert("Login Success");
   } catch (error) {
-    console.error("Login Error", error);
+    console.error("LOGIN FAILED", error);
+    alert(JSON.stringify(error));
   }
 };
 
