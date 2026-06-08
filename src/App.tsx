@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { app } from "@microsoft/teams-js";
+import { app,authentication } from "@microsoft/teams-js";
 import { msalInstance } from "./authConfig";
 
 
@@ -8,7 +8,7 @@ type TeamsContext = any;
 export default function App() {
   const [context, setContext] = useState<TeamsContext | null>(null);
   const [sdkConnected, setSdkConnected] = useState(false);
-  // const [ssoToken, setSsoToken] = useState("");
+  const [ssoToken, setSsoToken] = useState("");
   const [ssoError, setSsoError] = useState("");
 
   useEffect(() => {
@@ -21,10 +21,10 @@ export default function App() {
           console.log('getContext', ctx)
 
           try {
-            // const token = await authentication.getAuthToken();
+            const token = await authentication.getAuthToken();
 
             console.log("SSO Token received");
-            // setSsoToken(token);
+            setSsoToken(token);
           } catch (err: any) {
             console.error("Full SSO Error", err);
 
@@ -50,13 +50,69 @@ export default function App() {
 
 const handleLogin = async () => {
   try {
-    console.log("===== LOGIN REDIRECT STARTED =====");
+    console.log("===== LOGIN STARTED =====");
 
-    await msalInstance.loginRedirect({
+    const response = await msalInstance.loginPopup({
+      scopes: ["User.Read"],
+      prompt: "select_account",
+    });
+
+    console.log("Step 1 - Login Success");
+    console.log("Login Response:", response);
+    console.log("Account from response:", response.account);
+
+    const account =
+      response.account || msalInstance.getAllAccounts()[0];
+
+    console.log("Step 2 - Using Account");
+    console.log(account);
+
+    if (!account) {
+      throw new Error("No account found after login");
+    }
+
+    const tokenResponse = await msalInstance.acquireTokenSilent({
+      account,
       scopes: ["User.Read"],
     });
-  } catch (error) {
-    console.error("LOGIN REDIRECT FAILED", error);
+
+    console.log("Step 3 - Token Acquired");
+    console.log("Token Response:", tokenResponse);
+    console.log("Access Token:", tokenResponse.accessToken);
+
+    const graphResponse = await fetch(
+      "https://graph.microsoft.com/v1.0/me",
+      {
+        headers: {
+          Authorization: `Bearer ${tokenResponse.accessToken}`,
+        },
+      }
+    );
+
+    console.log("Step 4 - Graph API Response Status");
+    console.log(graphResponse.status);
+
+    const profile = await graphResponse.json();
+
+    console.log("Step 5 - Graph Profile");
+    console.log(profile);
+
+    alert("Login + Graph API Success");
+  } catch (error: any) {
+    console.error("===== LOGIN FAILED =====");
+    console.error(error);
+
+    if (error?.errorCode) {
+      console.error("Error Code:", error.errorCode);
+    }
+
+    if (error?.message) {
+      console.error("Message:", error.message);
+    }
+
+    alert(
+      `Error:\n${error?.errorCode || ""}\n${error?.message || error}`
+    );
   }
 };
   console.log("Origin:", window.location.origin);
@@ -152,7 +208,7 @@ const handleLogin = async () => {
             </ul>
           </Card> */}
           <Card title="SSO Status">
-            {/* <p>Token Received {ssoToken ? "✅" : "❌"}</p> */}
+            <p>Token Received {ssoToken ? "✅" : "❌"}</p>
             {ssoError && <p>Error: {ssoError}</p>}
             <button onClick={handleLogin}>
               Login
