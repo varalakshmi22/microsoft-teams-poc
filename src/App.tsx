@@ -159,8 +159,8 @@ export default function App() {
             </ul>
           </Card> */}
           <Card title="SSO Status">
-            {/* <p>Token Received {ssoToken ? "✅" : "❌"}</p>
-            {ssoError && <p>Error: {ssoError}</p>} */}
+            <p>Token Received {ssoToken ? "✅" : "❌"}</p>
+            {ssoError && <p>Error: {ssoError}</p>}
             <button onClick={handleLogin}>
               Login
             </button>
