@@ -8,5 +8,3 @@ export const msalInstance = new PublicClientApplication({
     redirectUri: "https://microsoft-teams-poc.vercel.app",
   },
 });
-
-await msalInstance.initialize();
