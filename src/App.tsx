@@ -50,16 +50,19 @@ export default function App() {
 
 const handleLogin = async () => {
   try {
-    await msalInstance.handleRedirectPromise();
     const response = await msalInstance.loginPopup({
       scopes: ["User.Read"],
       prompt: "select_account",
     });
 
+    console.log("LOGIN SUCCESS", response);
+
     const token = await msalInstance.acquireTokenSilent({
       account: response.account,
       scopes: ["User.Read"],
     });
+
+    console.log("Access Token", token.accessToken);
 
     const graphResponse = await fetch(
       "https://graph.microsoft.com/v1.0/me",
@@ -72,12 +75,11 @@ const handleLogin = async () => {
 
     const profile = await graphResponse.json();
 
-    console.log("Profile", profile);
+    console.log("Graph Profile", profile);
   } catch (error) {
-    console.error(error);
+    console.error("LOGIN FAILED", error);
   }
 };
-
   console.log("Origin:", window.location.origin);
   console.log("Href:", window.location.href);
 
