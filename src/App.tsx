@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { app, authentication } from "@microsoft/teams-js";
+import { msalInstance } from "./authConfig";
+
 
 type TeamsContext = any;
 
@@ -44,6 +46,25 @@ export default function App() {
 
     initializeTeams();
   }, []);
+
+  const handleLogin = async () => {
+    try {
+      const response = await msalInstance.loginPopup({
+        scopes: ["User.Read"],
+      });
+
+
+      console.log("Login Success", response);
+      const tokenResponse = await msalInstance.acquireTokenSilent({
+        account: response.account,
+        scopes: ["User.Read"],
+      });
+
+      console.log(tokenResponse.accessToken);
+    } catch (error) {
+      console.error("Login Error", error);
+    }
+  };
 
   console.log("Origin:", window.location.origin);
   console.log("Href:", window.location.href);
@@ -138,8 +159,11 @@ export default function App() {
             </ul>
           </Card> */}
           <Card title="SSO Status">
-            <p>Token Received {ssoToken ? "✅" : "❌"}</p>
-            {ssoError && <p>Error: {ssoError}</p>}
+            {/* <p>Token Received {ssoToken ? "✅" : "❌"}</p>
+            {ssoError && <p>Error: {ssoError}</p>} */}
+            <button onClick={handleLogin}>
+              Login
+            </button>
           </Card>
         </div>
       </div>
