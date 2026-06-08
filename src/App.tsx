@@ -16,7 +16,7 @@ export default function App() {
           await app.initialize();
 
           const ctx = await app.getContext();
-          console.log('getContext',ctx)
+          console.log('getContext', ctx)
 
           try {
             const token = await authentication.getAuthToken();
@@ -24,7 +24,11 @@ export default function App() {
             console.log("SSO Token received");
             setSsoToken(token);
           } catch (err: any) {
-            setSsoError(String(err));
+            console.error("Full SSO Error", err);
+
+            setSsoError(
+              JSON.stringify(err, Object.getOwnPropertyNames(err), 2)
+            );
           }
 
           setSdkConnected(true);
@@ -42,7 +46,7 @@ export default function App() {
   }, []);
 
   console.log("Origin:", window.location.origin);
-console.log("Href:", window.location.href);
+  console.log("Href:", window.location.href);
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100vw' }}>
@@ -137,8 +141,8 @@ console.log("Href:", window.location.href);
             <p>Token Received {ssoToken ? "✅" : "❌"}</p>
             {ssoError && <p>Error: {ssoError}</p>}
           </Card>
+        </div>
       </div>
-    </div>
     </div >
   );
 }
