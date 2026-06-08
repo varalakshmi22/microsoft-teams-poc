@@ -8,8 +8,7 @@ export default function App() {
   const [sdkConnected, setSdkConnected] = useState(false);
   const [ssoToken, setSsoToken] = useState("");
   const [ssoError, setSsoError] = useState("");
-console.log(window.location.origin);
-console.log(window.location.href);
+
   useEffect(() => {
     async function initializeTeams() {
       try {
@@ -40,6 +39,10 @@ console.log(window.location.href);
 
     initializeTeams();
   }, []);
+
+  console.log("Origin:", window.location.origin);
+console.log("Href:", window.location.href);
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100vw' }}>
       <div
