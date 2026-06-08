@@ -23,7 +23,7 @@ export default function App() {
           try {
             const token = await authentication.getAuthToken();
 
-            console.log("SSO Token received");
+            console.log("SSO Token received",token);
             setSsoToken(token);
           } catch (err: any) {
             console.error("Full SSO Error", err);
