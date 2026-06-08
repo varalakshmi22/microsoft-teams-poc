@@ -16,6 +16,7 @@ export default function App() {
           await app.initialize();
 
           const ctx = await app.getContext();
+          console.log('getContext',ctx)
 
           try {
             const token = await authentication.getAuthToken();
