@@ -59,10 +59,17 @@ const handleLogin = async () => {
 
     console.log("LOGIN SUCCESS", response);
     alert("Login Success");
+    const token = await msalInstance.acquireTokenSilent({
+  account: response.account,
+  scopes: ["User.Read"]
+});
+
+console.log(token.accessToken);
   } catch (error) {
     console.error("LOGIN FAILED", error);
     alert(JSON.stringify(error));
   }
+  
 };
 
   console.log("Origin:", window.location.origin);
