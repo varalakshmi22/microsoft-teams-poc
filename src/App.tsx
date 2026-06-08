@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { app } from "@microsoft/teams-js";
+import { app ,authentication} from "@microsoft/teams-js";
 import { msalInstance } from "./authConfig";
 
 
@@ -8,7 +8,7 @@ type TeamsContext = any;
 export default function App() {
   const [context, setContext] = useState<TeamsContext | null>(null);
   const [sdkConnected, setSdkConnected] = useState(false);
-  // const [ssoToken, setSsoToken] = useState("");
+  const [ssoToken, setSsoToken] = useState("");
   const [ssoError, setSsoError] = useState("");
 
   useEffect(() => {
@@ -21,10 +21,10 @@ export default function App() {
           console.log('getContext', ctx)
 
           try {
-            // const token = await authentication.getAuthToken();
+            const token = await authentication.getAuthToken();
 
             console.log("SSO Token received");
-            // setSsoToken(token);
+            setSsoToken(token);
           } catch (err: any) {
             console.error("Full SSO Error", err);
 
@@ -152,7 +152,7 @@ const handleLogin = async () => {
             </ul>
           </Card> */}
           <Card title="SSO Status">
-            {/* <p>Token Received {ssoToken ? "✅" : "❌"}</p> */}
+            <p>Token Received {ssoToken ? "✅" : "❌"}</p>
             {ssoError && <p>Error: {ssoError}</p>}
             <button onClick={handleLogin}>
               Login
