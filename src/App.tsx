@@ -50,6 +50,7 @@ export default function App() {
 
 const handleLogin = async () => {
   try {
+    await msalInstance.handleRedirectPromise();
     const response = await msalInstance.loginPopup({
       scopes: ["User.Read"],
       prompt: "select_account",
