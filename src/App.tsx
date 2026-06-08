@@ -49,21 +49,15 @@ export default function App() {
 
   const handleLogin = async () => {
     try {
-       await msalInstance.initialize();
+      await msalInstance.initialize();
+
       const response = await msalInstance.loginPopup({
         scopes: ["User.Read"],
       });
 
-
-      console.log("Login Success", response);
-      const tokenResponse = await msalInstance.acquireTokenSilent({
-        account: response.account,
-        scopes: ["User.Read"],
-      });
-
-      console.log(tokenResponse.accessToken);
+      console.log(response);
     } catch (error) {
-      console.error("Login Error", error);
+      console.error(error);
     }
   };
 
