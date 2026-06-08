@@ -49,6 +49,7 @@ export default function App() {
 
   const handleLogin = async () => {
     try {
+       await msalInstance.initialize();
       const response = await msalInstance.loginPopup({
         scopes: ["User.Read"],
       });
