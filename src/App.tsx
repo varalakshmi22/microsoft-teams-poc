@@ -49,15 +49,20 @@ export default function App() {
 
   const handleLogin = async () => {
     try {
-      await msalInstance.initialize();
+      const accounts = msalInstance.getAllAccounts();
+
+      if (accounts.length > 0) {
+        console.log("Already logged in", accounts[0]);
+        return;
+      }
 
       const response = await msalInstance.loginPopup({
         scopes: ["User.Read"],
       });
 
-      console.log(response);
+      console.log("Login Success", response);
     } catch (error) {
-      console.error(error);
+      console.error("Login Error", error);
     }
   };
 
