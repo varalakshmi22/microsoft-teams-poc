@@ -21,10 +21,10 @@ export default function App() {
           console.log('getContext', ctx)
 
           try {
-            const token = await authentication.getAuthToken();
+            // const token = await authentication.getAuthToken();
 
             console.log("SSO Token received");
-            setSsoToken(token);
+            // setSsoToken(token);
           } catch (err: any) {
             console.error("Full SSO Error", err);
 
