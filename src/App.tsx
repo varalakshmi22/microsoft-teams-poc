@@ -39,6 +39,7 @@ export default function App() {
   const getSsoToken = async () => {
   try {
     const token = await authentication.getAuthToken();
+    setSsoToken(token);
     console.log("TOKEN", token);
   } catch (e) {
     console.error(e);
