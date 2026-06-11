@@ -10,41 +10,61 @@ import SsoStatus from "../../components/SsoStatus";
 
 
 const Dashboard = () => {
-  const { context } =
-    useTeamsContext();
+    const { context } =
+        useTeamsContext();
 
-  const [token, setToken] =
-    useState("");
+    const [token, setToken] =
+        useState("");
+    const getPermissionsToken = async () => {
+        const token = await authentication.getAuthToken();
 
-  const getSsoToken = async () => {
-    try {
-      const token =
-        await authentication.getAuthToken();
+        const response = await fetch(
+            "https://graph.microsoft.com/v1.0/me",
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
 
-      setToken(token);
-      console.log("SSO Token:", token);
-    } catch (error) {
-      console.error(error);
+        console.log(response.status);
+
+        const data = await response.json();
+
+        console.log(data);
     }
-  };
-  
+    const getSsoToken = async () => {
+        try {
+            const token =
+                await authentication.getAuthToken();
 
-  return (
-    <>
-      <UserProfile
-        context={context}
-      />
+            setToken(token);
+            console.log("SSO Token:", token);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-      <SsoStatus
-        token={token}
-        onGetToken={getSsoToken}
-      />
 
-      <CalendarEvents />
+    return (
+        <>
+            <UserProfile
+                context={context}
+            />
 
-      <Emails />
-    </>
-  );
+            <SsoStatus
+                token={token}
+                onGetToken={getSsoToken}
+            />
+
+            <CalendarEvents />
+
+            <Emails />
+            <button onClick={getPermissionsToken}>
+                Get Permissions Token
+            </button>
+        </>
+    );
 };
 
 export default Dashboard;
