@@ -1,47 +1,3 @@
-// import { msalInstance } from "./authConfig";
-
-// const graphScopes = [
-//   "User.Read",
-//   "Calendars.Read",
-//   "Mail.Read",
-// ];
-
-// export const login = async () => {
-//   const response = await msalInstance.loginPopup({
-//     scopes: graphScopes,
-//     prompt: "select_account",
-//   });
-
-//   return response;
-// };
-
-// export const getGraphAccessToken = async () => {
-//   let account = msalInstance.getAllAccounts()[0];
-//   console.log("Current account:", account);
-//   let accounts = msalInstance.getAllAccounts();
-//   console.log("All accounts:", accounts);
-
-
-//   if (!account) {
-//     const loginResponse = await login();
-
-//     account = loginResponse.account!;
-//   }
-
-//   const tokenResponse =
-//     await msalInstance.acquireTokenSilent({
-//       account,
-//       scopes: graphScopes,
-//     });
-// console.log("Token response:", tokenResponse);
-//   return tokenResponse.accessToken;
-// };
-
-// export const logout = async () => {
-//   await msalInstance.logoutPopup();
-// };
-
-
 import { msalInstance } from "./authConfig";
 
 const graphScopes = [
@@ -50,35 +6,64 @@ const graphScopes = [
   "Mail.Read",
 ];
 
+export const login = async () => {
+  let account = msalInstance.getActiveAccount();
+
+  if (account) {
+    return account;
+  }
+
+  const response = await msalInstance.loginPopup({
+    scopes: graphScopes,
+    prompt: "select_account",
+  });
+
+  account = response.account!;
+
+  msalInstance.setActiveAccount(account);
+
+  console.log("LOGIN SUCCESS");
+  console.log("ACCOUNT:", account);
+
+  return account;
+};
+
 export const getGraphAccessToken = async () => {
   let account = msalInstance.getActiveAccount();
-  console.log("Current active account:", account);
+
+  console.log("Active Account:", account);
+
+  // Restore account after page refresh
+  if (!account) {
+    const accounts = msalInstance.getAllAccounts();
+
+    console.log("All Accounts:", accounts);
+
+    if (accounts.length > 0) {
+      account = accounts[0];
+
+      msalInstance.setActiveAccount(account);
+    }
+  }
 
   if (!account) {
-    const loginResponse = await msalInstance.loginPopup({
+    throw new Error(
+      "No account found. Please login first."
+    );
+  }
+
+  const tokenResponse =
+    await msalInstance.acquireTokenSilent({
+      account,
       scopes: graphScopes,
-      prompt: "select_account",
     });
 
-    account = loginResponse.account!;
+  console.log("TOKEN RESPONSE");
+  console.log(tokenResponse);
 
-    msalInstance.setActiveAccount(account);
-  }
+  return tokenResponse.accessToken;
+};
 
-  try {
-    const tokenResponse =
-      await msalInstance.acquireTokenSilent({
-        account,
-        scopes: graphScopes,
-      });
-
-    return tokenResponse.accessToken;
-  } catch {
-    const tokenResponse =
-      await msalInstance.acquireTokenPopup({
-        scopes: graphScopes,
-      });
-
-    return tokenResponse.accessToken;
-  }
+export const logout = async () => {
+  await msalInstance.logoutPopup();
 };

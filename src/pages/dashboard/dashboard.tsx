@@ -6,6 +6,7 @@ import CalendarEvents from "../../components/CalenderEvents";
 import SsoStatus from "../../components/SsoStatus";
 import { getCalendarEvents, getEmails, getProfile } from "../../auth/graphService";
 import { useTeamsContext } from "../../hooks/useTeamsContext";
+import { login } from "../../auth/authService";
 
 
 
@@ -20,6 +21,7 @@ const Dashboard = () => {
     const [token, setToken] =
         useState("");
 
+
     const getSsoToken = async () => {
         try {
             const token =
@@ -33,12 +35,16 @@ const Dashboard = () => {
     };
     const loadGraphData = async () => {
         try {
-            const [profileData, eventData, emailData] =
-                await Promise.all([
-                    getProfile(),
-                    getCalendarEvents(),
-                    getEmails(),
-                ]);
+            await login();
+
+            const profileData =
+                await getProfile();
+
+            const eventData =
+                await getCalendarEvents();
+
+            const emailData =
+                await getEmails();
 
             setProfile(profileData);
             setEvents(eventData.value || []);
@@ -62,6 +68,8 @@ const Dashboard = () => {
             <CalendarEvents events={events} />
 
             <Emails emails={emails} />
+
+
             <button onClick={loadGraphData}>
                 Load Outlook Data
             </button>
