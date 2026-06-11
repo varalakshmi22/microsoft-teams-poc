@@ -52,6 +52,7 @@ const graphScopes = [
 
 export const getGraphAccessToken = async () => {
   let account = msalInstance.getActiveAccount();
+  console.log("Current active account:", account);
 
   if (!account) {
     const loginResponse = await msalInstance.loginPopup({
