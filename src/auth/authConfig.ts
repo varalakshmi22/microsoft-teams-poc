@@ -6,5 +6,9 @@ export const msalInstance = new PublicClientApplication({
     authority:
       "https://login.microsoftonline.com/0540b69a-7ff8-497e-a99c-045243c2b269",
     redirectUri: "https://microsoft-teams-poc.vercel.app",
+
+  },
+  cache: {
+    cacheLocation: "localStorage",
   },
 });
