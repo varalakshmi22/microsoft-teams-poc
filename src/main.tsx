@@ -4,7 +4,13 @@ import { msalInstance } from "./auth/authConfig";
 
 async function bootstrap() {
   await msalInstance.initialize();
-  await msalInstance.handleRedirectPromise();
+const redirectResponse =
+    await msalInstance.handleRedirectPromise();
+
+  console.log(
+    "Redirect Response:",
+    redirectResponse
+  );
 
   ReactDOM.createRoot(
     document.getElementById("root")!
