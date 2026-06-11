@@ -22,6 +22,7 @@ const Dashboard = () => {
         await authentication.getAuthToken();
 
       setToken(token);
+      console.log("SSO Token:", token);
     } catch (error) {
       console.error(error);
     }
