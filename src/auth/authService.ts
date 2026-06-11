@@ -15,9 +15,9 @@ export const login = async () => {
 console.log("Before login");
 console.log(Object.keys(localStorage));
 console.log(Object.keys(sessionStorage));
-  const response = await msalInstance.loginPopup({
+  const response =
+  await msalInstance.acquireTokenPopup({
     scopes: graphScopes,
-    prompt: "select_account",
   });
 
   account = response.account!;
