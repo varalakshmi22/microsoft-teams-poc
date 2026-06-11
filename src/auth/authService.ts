@@ -18,6 +18,9 @@ export const login = async () => {
 export const getGraphAccessToken = async () => {
   let account = msalInstance.getAllAccounts()[0];
   console.log("Current account:", account);
+  let accounts = msalInstance.getAllAccounts();
+  console.log("All accounts:", accounts);
+
 
   if (!account) {
     const loginResponse = await login();
