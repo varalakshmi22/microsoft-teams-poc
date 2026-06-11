@@ -5,17 +5,22 @@ import { useTeamsContext } from "../../hooks/useTeamsContext";
 import Emails from "../../components/Emails";
 import CalendarEvents from "../../components/CalenderEvents";
 import SsoStatus from "../../components/SsoStatus";
+import { getCalendarEvents, getEmails, getProfile } from "../../auth/graphService";
 
 
 
 
 const Dashboard = () => {
+    const [profile, setProfile] = useState<any>();
+    const [events, setEvents] = useState<any[]>([]);
+    const [emails, setEmails] = useState<any[]>([]);
+
     const { context } =
         useTeamsContext();
 
     const [token, setToken] =
         useState("");
-   
+
     const getSsoToken = async () => {
         try {
             const token =
@@ -27,12 +32,30 @@ const Dashboard = () => {
             console.error(error);
         }
     };
+    const loadGraphData = async () => {
+        try {
+            const profileData =
+                await getProfile();
 
+            const eventData =
+                await getCalendarEvents();
+
+            const emailData =
+                await getEmails();
+
+            setProfile(profileData);
+            setEvents(eventData.value || []);
+            setEmails(emailData.value || []);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <>
             <UserProfile
                 context={context}
+                profile={profile}
             />
 
             <SsoStatus
@@ -40,10 +63,12 @@ const Dashboard = () => {
                 onGetToken={getSsoToken}
             />
 
-            <CalendarEvents />
+            <CalendarEvents events={events} />
 
-            <Emails />
-            
+            <Emails emails={emails} />
+            <button onClick={loadGraphData}>
+                Load Outlook Data
+            </button>
         </>
     );
 };
