@@ -1,12 +1,11 @@
 import Card from "./Cards";
 
 type Props = {
-  context: any;
   profile: any;
 };
 
-const UserProfile = ({ context,profile }: Props) => {
-    console.log("User :", context.user);
+const UserProfile = ({ profile }: Props) => {
+    console.log("User :", profile);
   return (
     <Card title="User Profile">
       <p>
