@@ -16,7 +16,7 @@ const CalendarEvents = ({events}: Props) => {
 
     return (
         <Card title="Upcoming Events">
-            {events.map((event) => (
+            {events.map((event:any) => (
                 <div
                     key={event.id}
                     style={{ marginBottom: 12 }}

@@ -19,7 +19,7 @@ const Emails = ({emails}: Props) => {
      title="Recent Emails">
       {/* {loading && <p>Loading...</p>} */}
 
-      {emails.map((mail) => (
+      {emails.map((mail:any) => (
         <div
           key={mail.id}
           style={{
