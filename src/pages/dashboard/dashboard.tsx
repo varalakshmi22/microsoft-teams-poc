@@ -1,38 +1,25 @@
 import { useState } from "react";
 import { authentication } from "@microsoft/teams-js";
 import UserProfile from "../../components/UserProfile";
-import { useTeamsContext } from "../../hooks/useTeamsContext";
 import Emails from "../../components/Emails";
 import CalendarEvents from "../../components/CalenderEvents";
 import SsoStatus from "../../components/SsoStatus";
+import { getCalendarEvents, getEmails, getProfile } from "../../auth/graphService";
+import { useTeamsContext } from "../../hooks/useTeamsContext";
 
 
 
 
 const Dashboard = () => {
-    const { context } =
-        useTeamsContext();
+    const [profile, setProfile] = useState<any>();
+    const [events, setEvents] = useState<any[]>([]);
+    const [emails, setEmails] = useState<any[]>([]);
+
+    const { context } = useTeamsContext();
 
     const [token, setToken] =
         useState("");
-    const getPermissionsToken = async () => {
-        const token = await authentication.getAuthToken();
 
-        const response = await fetch(
-            "https://graph.microsoft.com/v1.0/me",
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
-
-        console.log(response.status);
-
-        const data = await response.json();
-
-        console.log(data);
-    }
     const getSsoToken = async () => {
         try {
             const token =
@@ -44,8 +31,23 @@ const Dashboard = () => {
             console.error(error);
         }
     };
+    const loadGraphData = async () => {
+        try {
+            const [profileData, eventData, emailData] =
+                await Promise.all([
+                    getProfile(),
+                    getCalendarEvents(),
+                    getEmails(),
+                ]);
 
-
+            setProfile(profileData);
+            setEvents(eventData.value || []);
+            setEmails(emailData.value || []);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    console.log("profile in Dashboard:", profile);
     return (
         <>
             <UserProfile
@@ -57,11 +59,11 @@ const Dashboard = () => {
                 onGetToken={getSsoToken}
             />
 
-            <CalendarEvents />
+            <CalendarEvents events={events} />
 
-            <Emails />
-            <button onClick={getPermissionsToken}>
-                Get Permissions Token
+            <Emails emails={emails} />
+            <button onClick={loadGraphData}>
+                Load Outlook Data
             </button>
         </>
     );

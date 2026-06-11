@@ -1,24 +1,25 @@
-import { useEffect } from "react";
-import { useEmails } from "../hooks/useEmails";
 import Card from "./Cards";
 
-const Emails = () => {
-  const {
-    emails,
-    loadEmails,
-    loading,
-  } = useEmails();
+type Props = {
+  emails: any;
+};
+const Emails = ({emails}: Props) => {
+//   const {
+//     emails,
+//     loadEmails,
+//     loading,
+//   } = useEmails();
 
-  useEffect(() => {
-    loadEmails();
-  }, []);
+//   useEffect(() => {
+//     loadEmails();
+//   }, []);
 
   return (
     <Card
      title="Recent Emails">
-      {loading && <p>Loading...</p>}
+      {/* {loading && <p>Loading...</p>} */}
 
-      {emails.map((mail) => (
+      {emails.map((mail:any) => (
         <div
           key={mail.id}
           style={{
