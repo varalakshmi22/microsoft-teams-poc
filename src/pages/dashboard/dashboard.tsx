@@ -5,6 +5,7 @@ import Emails from "../../components/Emails";
 import CalendarEvents from "../../components/CalenderEvents";
 import SsoStatus from "../../components/SsoStatus";
 import { getCalendarEvents, getEmails, getProfile } from "../../auth/graphService";
+import { useTeamsContext } from "../../hooks/useTeamsContext";
 
 
 
@@ -14,8 +15,7 @@ const Dashboard = () => {
     const [events, setEvents] = useState<any[]>([]);
     const [emails, setEmails] = useState<any[]>([]);
 
-    // const { context } =
-    //     useTeamsContext();
+    const { context } = useTeamsContext();
 
     const [token, setToken] =
         useState("");
@@ -49,11 +49,11 @@ const Dashboard = () => {
             console.error(error);
         }
     };
-
+console.log("profile in Dashboard:", profile);
     return (
         <>
             <UserProfile
-                profile={profile}
+                context={context}
             />
 
             <SsoStatus

@@ -1,24 +1,27 @@
 import Card from "./Cards";
 
 type Props = {
-  profile: any;
+  context: any;
 };
 
-const UserProfile = ({ profile }: Props) => {
-    console.log("User :", profile);
+const UserProfile = ({ context }: Props) => {
+    console.log("User :", context.user);
   return (
     <Card title="User Profile">
       <p>
         <strong>Name:</strong>{" "}
-        {profile?.displayName}
+        {context?.user?.displayName}
       </p>
 
       <p>
         <strong>Email:</strong>{" "}
-        {profile?.mail}
+        {context?.user?.userPrincipalName}
       </p>
 
-      
+      <p>
+        <strong>Tenant:</strong>{" "}
+        {context?.user?.tenant?.id}
+      </p>
     </Card>
   );
 };
