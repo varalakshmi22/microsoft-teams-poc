@@ -5,7 +5,7 @@ type Props = {
 };
 
 const UserProfile = ({ context }: Props) => {
-    console.log("User :", context.user);
+    console.log("User :", context);
   return (
     <Card title="User Profile">
       <p>

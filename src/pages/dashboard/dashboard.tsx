@@ -33,14 +33,12 @@ const Dashboard = () => {
     };
     const loadGraphData = async () => {
         try {
-            const profileData =
-                await getProfile();
-
-            const eventData =
-                await getCalendarEvents();
-
-            const emailData =
-                await getEmails();
+            const [profileData, eventData, emailData] =
+                await Promise.all([
+                    getProfile(),
+                    getCalendarEvents(),
+                    getEmails(),
+                ]);
 
             setProfile(profileData);
             setEvents(eventData.value || []);
@@ -49,7 +47,7 @@ const Dashboard = () => {
             console.error(error);
         }
     };
-console.log("profile in Dashboard:", profile);
+    console.log("profile in Dashboard:", profile);
     return (
         <>
             <UserProfile
