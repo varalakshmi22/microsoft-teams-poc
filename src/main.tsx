@@ -4,6 +4,7 @@ import { msalInstance } from "./auth/authConfig";
 
 async function bootstrap() {
   await msalInstance.initialize();
+  await msalInstance.handleRedirectPromise();
 
   ReactDOM.createRoot(
     document.getElementById("root")!

@@ -9,8 +9,6 @@ import { useTeamsContext } from "../../hooks/useTeamsContext";
 import { login } from "../../auth/authService";
 
 
-
-
 const Dashboard = () => {
     const [profile, setProfile] = useState<any>();
     const [events, setEvents] = useState<any[]>([]);
