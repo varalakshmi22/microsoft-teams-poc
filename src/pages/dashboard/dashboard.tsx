@@ -15,24 +15,7 @@ const Dashboard = () => {
 
     const [token, setToken] =
         useState("");
-    const getPermissionsToken = async () => {
-        const token = await authentication.getAuthToken();
-
-        const response = await fetch(
-            "https://graph.microsoft.com/v1.0/me",
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
-
-        console.log(response.status);
-
-        const data = await response.json();
-
-        console.log(data);
-    }
+   
     const getSsoToken = async () => {
         try {
             const token =
@@ -60,9 +43,7 @@ const Dashboard = () => {
             <CalendarEvents />
 
             <Emails />
-            <button onClick={getPermissionsToken}>
-                Get Permissions Token
-            </button>
+            
         </>
     );
 };
