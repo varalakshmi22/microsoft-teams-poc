@@ -10,12 +10,12 @@ const UserProfile = ({ profile }: Props) => {
     <Card title="User Profile">
       <p>
         <strong>Name:</strong>{" "}
-        {profile.displayName}
+        {profile?.displayName}
       </p>
 
       <p>
         <strong>Email:</strong>{" "}
-        {profile.userPrincipalName}
+        {profile?.mail}
       </p>
 
       
