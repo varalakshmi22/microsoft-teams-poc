@@ -15,6 +15,10 @@ export const login = async () => {
 console.log("Before login");
 console.log(Object.keys(localStorage));
 console.log(Object.keys(sessionStorage));
+console.log(
+  "Redirect URI:",
+  msalInstance.getConfiguration().auth.redirectUri
+);
   const response =
   await msalInstance.acquireTokenPopup({
     scopes: graphScopes,
