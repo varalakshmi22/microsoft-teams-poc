@@ -1,4 +1,4 @@
-import { PublicClientApplication } from "@azure/msal-browser";
+import { PublicClientApplication } from "../../node_modules/@azure/msal-browser/types";
 
 export const msalInstance = new PublicClientApplication({
   auth: {

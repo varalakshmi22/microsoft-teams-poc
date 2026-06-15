@@ -4,9 +4,7 @@ import UserProfile from "../../components/UserProfile";
 import Emails from "../../components/Emails";
 import CalendarEvents from "../../components/CalenderEvents";
 import SsoStatus from "../../components/SsoStatus";
-import { getCalendarEvents, getEmails, getProfile } from "../../auth/graphService";
-import { useTeamsContext } from "../../hooks/useTeamsContext";
-import { login } from "../../auth/authService";
+import { getCalendarEvents, getEmails, getProfile } from "../../api/graphApi";
 
 
 const Dashboard = () => {
@@ -14,7 +12,6 @@ const Dashboard = () => {
     const [events, setEvents] = useState<any[]>([]);
     const [emails, setEmails] = useState<any[]>([]);
 
-    const { context } = useTeamsContext();
 
     const [token, setToken] =
         useState("");
@@ -33,7 +30,7 @@ const Dashboard = () => {
     };
     const loadGraphData = async () => {
         try {
-            await login();
+            
 
             const profileData =
                 await getProfile();
@@ -55,7 +52,7 @@ const Dashboard = () => {
     return (
         <>
             <UserProfile
-                context={context}
+                profile={profile}
             />
 
             <SsoStatus
