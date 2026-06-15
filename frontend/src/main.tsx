@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { MsalProvider } from "../node_modules/@azure/msal-react/types";
 import { msalInstance } from "./auth/authConfig";
+import { MsalProvider } from "@azure/msal-react";
 
 async function bootstrap() {
   await msalInstance.initialize();
