@@ -3,8 +3,8 @@ import {authentication} from "@microsoft/teams-js";
 const getTeamsToken =async() =>{
     return await authentication.getAuthToken();
 }
-const API_BASE = 'https://teams-poc-api.vercel.app/api';
-//  const API_BASE ='http://localhost:5000/api';
+// const API_BASE = 'https://teams-poc-api.vercel.app/api';
+ const API_BASE ='http://localhost:5000/api';
 export const getProfile = async () => {
     const token =
         await getTeamsToken();
