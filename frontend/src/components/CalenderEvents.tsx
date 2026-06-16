@@ -1,36 +1,97 @@
-import Card from "@mui/material/Card";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Divider,
+  List,
+  ListItem,
+} from "@mui/material";
+
 type Props = {
-    events: any;
+  events: any[];
 };
-const CalendarEvents = ({ events }: Props) => {
-    // const {
-    //     events,
-    //     loadEvents,
-    //     loading,
-    // } = useCalendar();
 
-    // useEffect(() => {
-    //     loadEvents();
-    // }, []);
+const CalendarEvents = ({
+  events,
+}: Props) => {
+  return (
+    <Card elevation={3}>
+      <CardContent>
+        <Typography
+          variant="h6"
+          gutterBottom
+        >
+          Upcoming Events
+        </Typography>
 
-    return (
-        <Card title="Upcoming Events">
-            {events.map((event: any) => (
-                <div
-                    key={event.id}
-                    style={{ marginBottom: 12 }}
-                >
-                    <strong>
-                        {event.subject}
-                    </strong>
+        {events.length === 0 ? (
+          <Typography color="text.secondary">
+            No upcoming events
+          </Typography>
+        ) : (
+          <List>
+            {events.map(
+              (event, index) => (
+                <div key={event.id}>
+                  <ListItem
+                    sx={{
+                      display: "block",
+                      px: 0,
+                    }}
+                  >
+                    <Typography
+                    variant="subtitle1"
+                      fontWeight={600}
+                    >
+                      {event.subject}
+                    </Typography>
 
-                    <div>
-                        {event.start?.dateTime}
-                    </div>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                    >
+                      Start:{" "}
+                      {new Date(
+                        event.start
+                          ?.dateTime
+                      ).toLocaleString()}
+                    </Typography>
+
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                    >
+                      End:{" "}
+                      {new Date(
+                        event.end
+                          ?.dateTime
+                      ).toLocaleString()}
+                    </Typography>
+
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                    >
+                      Location:{" "}
+                      {event.location
+                        ?.displayName ||
+                        "N/A"}
+                    </Typography>
+                  </ListItem>
+
+                  {index <
+                    events.length -
+                      1 && (
+                    <Divider />
+                  )}
                 </div>
-            ))}
-        </Card>
-    );
+              )
+            )}
+          </List>
+        )}
+      </CardContent>
+    </Card>
+  );
 };
 
 export default CalendarEvents;

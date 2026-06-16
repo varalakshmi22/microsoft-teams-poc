@@ -1,44 +1,80 @@
-import Card from "@mui/material/Card";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Divider,
+  List,
+  ListItem,
+} from "@mui/material";
 
 type Props = {
-  emails: any;
+  emails: any[];
 };
-const Emails = ({emails}: Props) => {
-//   const {
-//     emails,
-//     loadEmails,
-//     loading,
-//   } = useEmails();
 
-//   useEffect(() => {
-//     loadEmails();
-//   }, []);
-
+const Emails = ({ emails }: Props) => {
   return (
-    <Card
-     title="Recent Emails">
-      {/* {loading && <p>Loading...</p>} */}
-
-      {emails.map((mail:any) => (
-        <div
-          key={mail.id}
-          style={{
-            marginBottom: 12,
-          }}
+    <Card elevation={3}>
+      <CardContent>
+        <Typography
+          variant="h6"
+          gutterBottom
         >
-          <strong>
-            {mail.subject}
-          </strong>
+          Recent Emails
+        </Typography>
 
-          <div>
-            {
-              mail.from
-                ?.emailAddress
-                ?.address
-            }
-          </div>
-        </div>
-      ))}
+        {emails.length === 0 ? (
+          <Typography color="text.secondary">
+            No emails found
+          </Typography>
+        ) : (
+          <List>
+            {emails.map((mail, index) => (
+              <div key={mail.id}>
+                <ListItem
+                  sx={{
+                    display: "block",
+                    px: 0,
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight={600}
+                  >
+                    {mail.subject ||
+                      "(No Subject)"}
+                  </Typography>
+
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                    From:{" "}
+                    {
+                      mail.from
+                        ?.emailAddress
+                        ?.name
+                    }
+                  </Typography>
+
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                  >
+                    {new Date(
+                      mail.receivedDateTime
+                    ).toLocaleString()}
+                  </Typography>
+                </ListItem>
+
+                {index <
+                  emails.length - 1 && (
+                  <Divider />
+                )}
+              </div>
+            ))}
+          </List>
+        )}
+      </CardContent>
     </Card>
   );
 };

@@ -19,10 +19,7 @@ const UserProfile = ({ profile }: Props) => {
         {profile?.mail}
       </p>
 
-      <p>
-        <strong>Job title:</strong>{" "}
-        {profile?.jobTitle}
-      </p>
+     
     </Card>
   );
 };
