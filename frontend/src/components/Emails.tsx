@@ -38,7 +38,6 @@ const Emails = ({ emails }: Props) => {
                 >
                   <Typography
                     variant="subtitle1"
-                    fontWeight={600}
                   >
                     {mail.subject ||
                       "(No Subject)"}

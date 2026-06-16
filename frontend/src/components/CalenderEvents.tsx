@@ -41,7 +41,6 @@ const CalendarEvents = ({
                   >
                     <Typography
                     variant="subtitle1"
-                      fontWeight={600}
                     >
                       {event.subject}
                     </Typography>
