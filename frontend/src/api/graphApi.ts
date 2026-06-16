@@ -10,7 +10,7 @@ const getTeamsToken = async () => {
     return token;
 }
 // const API_BASE = 'https://teams-poc-api.vercel.app/api';
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = 'https://teams-poc-api.vercel.app/api';
 export const getProfile = async () => {
       console.log("getProfile started");
     const token =
