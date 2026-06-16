@@ -30,11 +30,11 @@ const Dashboard = () => {
     };
     const loadGraphData = async () => {
         try {
-            
+            console.log("Load button clicked");
 
             const profileData =
                 await getProfile();
-
+            console.log("Profile data:", profileData);
             const eventData =
                 await getCalendarEvents();
 
