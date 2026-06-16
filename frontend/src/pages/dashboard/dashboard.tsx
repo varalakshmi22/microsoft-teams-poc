@@ -18,6 +18,7 @@ const Dashboard = () => {
 
 
     const getSsoToken = async () => {
+        console.log("Get SSO Token button clicked");
         try {
             const token =
                 await authentication.getAuthToken();
