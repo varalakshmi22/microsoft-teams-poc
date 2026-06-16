@@ -1,4 +1,5 @@
-import Card from "./Cards";
+import Card from "@mui/material/Card";
+
 
 type Props = {
   profile: any;

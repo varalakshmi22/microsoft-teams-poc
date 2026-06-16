@@ -1,37 +1,21 @@
 import { useState } from "react";
-import { authentication } from "@microsoft/teams-js";
 import UserProfile from "../../components/UserProfile";
 import Emails from "../../components/Emails";
 import CalendarEvents from "../../components/CalenderEvents";
-import SsoStatus from "../../components/SsoStatus";
 import { getCalendarEvents, getEmails, getProfile } from "../../api/graphApi";
+import Button from "@mui/material/Button";
 
 
 const Dashboard = () => {
     const [profile, setProfile] = useState<any>();
     const [events, setEvents] = useState<any[]>([]);
     const [emails, setEmails] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
 
-
-    const [token, setToken] =
-        useState("");
-
-
-    const getSsoToken = async () => {
-        console.log("Get SSO Token button clicked");
-        try {
-            const token =
-                await authentication.getAuthToken();
-
-            setToken(token);
-            console.log("SSO Token:", token);
-        } catch (error) {
-            console.error(error);
-        }
-    };
     const loadGraphData = async () => {
         try {
             console.log("Load button clicked");
+            setLoading(true);
 
             const profileData =
                 await getProfile();
@@ -47,6 +31,8 @@ const Dashboard = () => {
             setEmails(emailData.value || []);
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
     console.log("profile in Dashboard:", profile);
@@ -55,20 +41,14 @@ const Dashboard = () => {
             <UserProfile
                 profile={profile}
             />
-
-            <SsoStatus
-                token={token}
-                onGetToken={getSsoToken}
-            />
-
+            <Button variant="contained"
+                loading={loading}
+                onClick={loadGraphData}
+                disabled={loading}>
+                {loading ? "Loading..." : "Load Graph Data"}
+            </Button>
             <CalendarEvents events={events} />
-
             <Emails emails={emails} />
-
-
-            <button onClick={loadGraphData}>
-                Load Outlook Data
-            </button>
         </>
     );
 };

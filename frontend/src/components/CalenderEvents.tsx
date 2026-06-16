@@ -1,9 +1,8 @@
-import Card from "./Cards";
-
+import Card from "@mui/material/Card";
 type Props = {
-  events: any;
+    events: any;
 };
-const CalendarEvents = ({events}: Props) => {
+const CalendarEvents = ({ events }: Props) => {
     // const {
     //     events,
     //     loadEvents,
@@ -16,7 +15,7 @@ const CalendarEvents = ({events}: Props) => {
 
     return (
         <Card title="Upcoming Events">
-            {events.map((event:any) => (
+            {events.map((event: any) => (
                 <div
                     key={event.id}
                     style={{ marginBottom: 12 }}
