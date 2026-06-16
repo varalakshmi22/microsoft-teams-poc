@@ -41,12 +41,12 @@ const Dashboard = () => {
             <UserProfile
                 profile={profile}
             />
-            <Button variant="contained"
+            {/* <Button variant="contained"
                 loading={loading}
                 onClick={loadGraphData}
                 disabled={loading}>
                 {loading ? "Loading..." : "Load Graph Data"}
-            </Button>
+            </Button> */}
             <CalendarEvents events={events} />
             <Emails emails={emails} />
         </>
