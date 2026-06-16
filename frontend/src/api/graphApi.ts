@@ -1,9 +1,9 @@
-import { authentication } from "@microsoft/teams-js";
+import {app, authentication } from "@microsoft/teams-js";
 
 const getTeamsToken = async () => {
     console.log("Getting Teams token...");
     const token = await authentication.getAuthToken();
-
+  await app.initialize();
     console.log("Token received");
 
     return token;
