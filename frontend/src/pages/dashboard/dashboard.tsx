@@ -38,15 +38,16 @@ const Dashboard = () => {
     console.log("profile in Dashboard:", profile);
     return (
         <>
-            <UserProfile
-                profile={profile}
-            />
+
             <Button variant="contained"
                 loading={loading}
                 onClick={loadGraphData}
-                disabled={!loading}>
+                disabled={loading}>
                 {loading ? "Loading..." : "Load Graph Data"}
             </Button>
+            <UserProfile
+                profile={profile}
+            />
             <CalendarEvents events={events} />
             <Emails emails={emails} />
         </>
